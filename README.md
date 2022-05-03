@@ -4,7 +4,7 @@
 
 ### 3.1 Telnet
 
-*** Escriba el comando utilizado ***
+***1. Escriba el comando utilizado***
 
 > Acceso al equipo usuario y contraseña redes.
 
@@ -17,9 +17,11 @@ telnet 192.168.56.2 23
 ```
 - El usuario y contraseña son "ort-grupo1"
 
-*** ¿Que tipo de tareas puede realizar en el host de destino? ***
+***2. ¿Qué tipo de tareas puede realizar en el host de destino?***
 
-> En el host destino puedo tomar control del equipo, ejecutar comandos, revisar directorios, administrar aplicaciones, etc. Por ejemplo:
+> En el host destino puedo tomar control del equipo, ejecutar comandos, revisar directorios, administrar aplicaciones, etc. 
+
+En el siguiente ejemplo se muestra la conexión al equipo y la ejecución de comandos:
 
 ```bash
 Last login: Tue Mar 22 01:00:38 UTC 2022 from 192.168.56.1 on pts/0
@@ -63,7 +65,7 @@ boot  dev    home  initrd.img.old  lib64  media       opt  root  sbin  srv   tmp
 ort-grupo1@servidor_redes:~$
 ```
 
-*** ¿Que es necesario para que pueda acceder desde un equipo a otro remoto por Telnet? ***
+***3. ¿Qué es necesario para que pueda acceder desde un equipo a otro remoto por Telnet?***
 
 > Es necesario que el equipo destino tenga habilitado tanto el servicio como el puerto a la escucha.
 En el archivo /etc/inetd.conf se encuentra la configuración:
@@ -95,35 +97,37 @@ telnet          stream  tcp     nowait  telnetd /usr/sbin/tcpd  /usr/sbin/in.tel
 
 ```
 
-*** ¿Hasta que capa deben de entenderse los nodos entre si para que el acceso por Telnet sea exitoso? ***
+***4. ¿Hasta qué capa deben de entenderse los nodos entre si para que el acceso por Telnet sea exitoso?***
 
-*** Si analiza el trafico capturado con Wireshark: ***
-*** ¿Cu´al es el n´umero de puerto de origen y de destino con los que se est´a accediendo? ***
+> Hasta la capa de aplicación.
 
-> En la comunicacion el puerto de origen esta en el IP 192.168.56.1 (el pc host) y es el 55381, el puerto de destino es el estandar de Telnet, el puerto 23, en el IP 192.168.56.2 (el equipo virtual).
-Se puede ver en la siguiente imagen:
+***5. Si analiza el tráfico capturado con Wireshark:***
+***5.1 ¿Cuál es el número de puerto de orígen y de destino con los que se está accediendo?***
+
+> En la comunicación el puerto de origen está en el IP 192.168.56.1 (el pc host) y es el 55381, el puerto de destino es el estándar de Telnet, el puerto 23, en el IP 192.168.56.2 (el equipo virtual).
+Se puede ver en la siguiente imágen:
 
 ![Imagen wireshark](./assets/telnet1.png)
 
-*** Identifique los paquetes Telnet de intercambio entre el cliente y el servidor. ¿Qu´e informaci´on contienen esos paquetes? ***
+***5.2 Identifique los paquetes Telnet de intercambio entre el cliente y el servidor. ¿Qué información contienen esos paquetes?***
 
-> Contiene en texto plano toda la comunicacion entre el cliente y el servidor, en la imagen anterior se pudo ver la comunicacion hacia la maquina virtual, en la siguiente se puede ver la respuesta de la misma:
+> Contiene en texto plano toda la comunicación entre el cliente y el servidor, en la imagen anterior se pudo ver la comunicación hacia la máquina virtual, en la siguiente se puede ver la respuesta de la misma:
 
 ![Imagen wireshark](./assets/telnet2.png)
 
-> Dentro de toda la conversacion se marca en la misma el estado del ufw, el firewall del equipo.
+> Dentro de toda la conversación se marca en la misma el estado del ufw, el firewall del equipo.
 
 ### 3.2 SMTP: Simple Mail Transport Protocol - RFC 821
 
-*** ¿Qu´e comando debe ejecutar para conectarse, mediante Telnet, al puerto 25 (SMTP) del servidor? ***
+***1. ¿Qué comando debe ejecutar para conectarse, mediante Telnet, al puerto 25 (SMTP) del servidor?***
 
-- Para conectarnos a la maquina virtual por Telnet, debemos ejecutar el comando:
+- Para conectarnos a la máquina virtual por Telnet, debemos ejecutar el comando:
 
 ```bash
 telnet 192.168.56.2 25
 ```
 
-*** Mediante el empleo del nombre asignado a su usuario (ort-grupo1) realice un di´alogo SMTP a su propio usuario y al usuario ort-grupo2. Detalle cu´ales fueron los comandos utilizados en cada caso ***
+***2. Mediante el empleo del nombre asignado a su usuario (ort-grupo1) realice un diálogo SMTP a su propio usuario y al usuario ort-grupo2. Detalle cuáles fueron los comandos utilizados en cada caso.***
 
 ```bash
 helo ort-grupo1
@@ -143,21 +147,21 @@ Saludos Federico Alonso.
 ```
 ![Imagen SMTP](./assets/smtp1.PNG)
 
-*** Identifique: el sobre, el encabezado y el cuerpo del mensaje. ¿Cu´ales son las diferencias entre el sobre y el encabezado? ***
+***3. Identifique: el sobre, el encabezado y el cuerpo del mensaje. ¿Cuáles son las diferencias entre el sobre y el encabezado?***
 
 ![Imagen SMTP](./assets/smtp2.png)
 
-> En el sobre no podria mentir los datos, mientras que en el encabezado puedo poner las direcciones que desee.
+> En el sobre no podría mentir los datos, mientras que en el encabezado puedo poner las direcciones que desee.
 
 ### 3.3 POP3: Post Office Protocol version 3 - RFC 1939
 
-*** Utilizando el protocolo Telnet, establezca una conexi´on al puerto est´andar del protocolo. Liste el comando utilizado. ***
+***1. Utilizando el protocolo Telnet, establezca una conexión al puerto estándar del protocolo. Liste el comando utilizado.***
 
 ```bash
 telnet 192.168.56.2 110
 ```
 
-*** Establezca un di´alogo POP3, ingresando con el usuario asignado a su grupo (ort-grupo1), liste sus mensajes y recupere los mismos. ¿Qu´e comandos utiliz´o? ***
+***2. Establezca un diálogo POP3, ingresando con el usuario asignado a su grupo (ort-grupo1), liste sus mensajes y recupere los mismos. ¿Qué comandos utilizó? ***
 
 ```bash
 user ort-grupo2
@@ -186,7 +190,7 @@ Hola ort-grupo2, esta es una prueba de envio de correo.
 Saludos Federico Alonso.
 .
 ```
-*** Verifique la correcta recepci´on de los mensajes que envi´o a su propio usuario en la parte de SMTP. Borre el ´ultimo mensaje de la casilla. ¿Mediante qu´e comando lo hace? ***
+***3. Verifique la correcta recepción de los mensajes que envió a su propio usuario en la parte de SMTP. Borre el último mensaje de la casilla. ¿Mediante qué comando lo hace?***
 
 ```bash
 dele 2
@@ -199,53 +203,92 @@ list
 
 ### 3.4 HTTP: Hypertext Transfer Protocol - RFC 1945
 
-*** Establezca una conexi´on al servidor a trav´es del puerto habitual del protocolo HTTP, utilizando la aplicaci´on Telnet. ¿Qu´e comando utiliz´o? ***
+***1. Establezca una conexión al servidor a través del puerto habitual del protocolo HTTP, utilizando la aplicación Telnet. ¿Qué comando utilizó?***
 
   
 ```bash
 telnet 192.168.56.2 80
 ```
 
-*** Recupere la p´agina de prueba usada para el laboratorio, utilizando como URL la direcci´on IP del servidor. Indique el comando utilizado (cuando ejecute el comando, presione dos veces la tecla “enter”). Indique tambi´en la salida obtenida ***
+*** Recupere la página de prueba usada para el laboratorio, utilizando como URL la dirección IP del servidor. Indique el comando utilizado (cuando ejecute el comando, presione dos veces la tecla “enter”). Indique también la salida obtenida ***
+
+Como tuve problemas para poder verlo con el ejemplo, muestro la salida de google.com.
 
 ```bash
-GET / HTTP:/1.0
-Host: localhost
+federico@federico-PC:~/Documentos/Gitlab$ telnet localhost 8082
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+GET / HTTP/1.0
 
+HTTP/1.1 200 OK
+Date: Mon, 02 May 2022 23:54:17 GMT
+Server: Apache/2.4.53 (Debian)
+Last-Modified: Mon, 02 May 2022 23:36:53 GMT
+ETag: "1b6-5de0fddf9a4ed"
+Accept-Ranges: bytes
+Content-Length: 438
+Vary: Accept-Encoding
+Connection: close
+Content-Type: text/html
 
-# Salida
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hola mundo desde apache!!</h1>
+    <p>Página de ejemplo para que podamos ver la diferencia entre ver una página por código, en contrasete con verla en un navegador.</p>
+</body>
+</html>Connection closed by foreign host.
 ```
 
-*** Indique el lenguaje en el cual est´a escrita la p´agina ***
+***3. Indique el lenguaje en el cual está escrita la página***
 
-La pagina esta escrita en HTML.
+> La página esta escrita en HTML.
 
-*** ¿Con qu´e comando traer´ıa ´unicamente el encabezado de la p´agina? Indique la salida obtenida y comp´arela con la obtenida en el punto anterior ***
+***4. ¿Con qué comando traería únicamente el encabezado de la página? Indique la salida obtenida y compárela con la obtenida en el punto anterior***
 
 Con el comando HEAD, se realiza de la siguiente forma:
   
 ```bash
+federico@federico-PC:~/Documentos/Gitlab$ telnet localhost 8082
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
 HEAD / HTTP/1.0
-Host: localhost
 
-# Salida
+HTTP/1.1 200 OK
+Date: Mon, 02 May 2022 23:56:23 GMT
+Server: Apache/2.4.53 (Debian)
+Last-Modified: Mon, 02 May 2022 23:36:53 GMT
+ETag: "1b6-5de0fddf9a4ed"
+Accept-Ranges: bytes
+Content-Length: 438
+Vary: Accept-Encoding
+Connection: close
+Content-Type: text/html
 
+Connection closed by foreign host.
 ```
 
-*** Acceda mediante un navegador web a la p´agina y compare los resultados obtenidos. ***
+***5. Acceda mediante un navegador web a la página y compare los resultados obtenidos.***
 
-Mediante un navegador podemos ver la pagina pronta para que un usuario pueda entenderla, esto se debe a que el navegador interpreta el HTTP y la muestra en pantalla correctamente.
+Mediante un navegador podemos ver la página pronta para que un usuario pueda entenderla, esto se debe a que el navegador interpreta el HTTP y la muestra en pantalla correctamente.
 
 ![Imagen HTTP](./assets/http.PNG)
 
 ### 3.5 FTP: File Transfer Protocol - RFC 959
 
-*** ¿Cu´al es el objetivo del protocolo FTP? ***
+***1. ¿Cuál es el objetivo del protocolo FTP?***
 
 El objetivo de FTP es transferir archivos entre dos equipos. 
 
-*** Con´ectese mediante el cliente FTP de Windows al servidor cuya IP es 192.168.56.2. Utilice el usuario ort-grupo1. ¿Qu´e comando utiliz´o? ***
+***2. Conéctese mediante el cliente FTP de Windows al servidor cuya IP es 192.168.56.2. Utilice el usuario ort-grupo1. ¿Qué comando utilizó?***
 
 Se utiliza el comando: ftp 192.168.56.2
 
@@ -261,7 +304,7 @@ Contraseña:
 ftp>
 ```
 
-*** Posici´onese en el directorio /home/publico y liste el contenido del mismo. ¿Qu´e archivos se observa? ***
+*** 3.Posiciónese en el directorio /home/publico y liste el contenido del mismo. ¿Qué archivos se observa?***
 
 ```bash
 ftp> pwd
@@ -281,7 +324,7 @@ ftp: 126 bytes recibidos en 0.00segundos 42.00a KB/s.
   1. texto.txt
   2. putty.exe
 
-*** Copie en su PC el archivo correspondiente al cliente SSH (archivo putty.exe). Indique la secuencia de comandos usada, teniendo en cuenta de que se trata de un ejecutable. ***
+***4. Copie en su PC el archivo correspondiente al cliente SSH (archivo putty.exe). Indique la secuencia de comandos usada, teniendo en cuenta de que se trata de un ejecutable.***
 
 ```bash
 ftp> get putty.exe
@@ -291,7 +334,7 @@ ftp> get putty.exe
 ftp: 484455 bytes recibidos en 0.02segundos 23069.29a KB/s.
 ```
 
-*** ¿Qu´e secuencia de comandos utilizar´ıa si deseara copiar a su equipo todo el contenido del directorio actual indicando que no se desea recibir confirmaci´on para cada archivo a transferir? ***
+***5. ¿Qué secuenc4.ia de comandos utilizaría ú deseara copiar a su equipo todo el contenido del directorio actual indicando que no se desea recibir confirmación para cada archivo a transferir?***
 
 ```bash
 ftp> prompt
@@ -315,7 +358,7 @@ ftp>
 
 ### 3.6. SSH: Security Shell
 
-*** Usando el cliente SSH obtenido en el ejercicio anterior, establezca una conexi ́on con el servidor al puerto est ́andar del servidor SSH. Indique cu ́al fue la configuraci ́on empleada. ***
+***1. Usando el cliente SSH obtenido en el ejercicio anterior, establezca una conexión con el servidor al puerto estándar del servidor SSH. Indique cuál fue la configuración empleada.***
 
 ```bash
 C:\Users\fnico>ssh ort-grupo1@192.168.56.2
@@ -353,7 +396,7 @@ Last login: Tue Mar 22 02:12:41 2022 from 192.168.56.1
 ort-grupo1@servidor_redes:~$
 ```
 
-*** ¿Qu ́e diferencias existen entre usar SSH y Telnet? ***
+***2. ¿Qué diferencias existen entre usar SSH y Telnet?***
 
 La principal diferencia es que SSH utliza un protocolo de comunicación seguro, establece un canal de comunicación encriptado para mantener la confidencialidad, la autenticación y la integridad de la información. Esto no es posible con Telnet, que utiliza un protocolo de comunicación no seguro.
 Por este motivo es que no se habilita más telnet en los servidores. 

@@ -1,0 +1,9 @@
+version: "3.1"
+services:
+  miservicio_php:
+    image: php:7-apache
+    container_name: web
+    volumes:
+      - ./index.html:/var/www/html/index.html
+    ports:
+      - "8082:80"
