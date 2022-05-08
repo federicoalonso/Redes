@@ -1,5 +1,7 @@
 # Obligatorio de Redes
 
+Primera entrega del obligatorio de redes, alumno Federico Alonso, 182999.
+
 ## 3 Aplicaciones
 
 ### 3.1 Telnet
@@ -161,7 +163,7 @@ Saludos Federico Alonso.
 telnet 192.168.56.2 110
 ```
 
-***2. Establezca un diálogo POP3, ingresando con el usuario asignado a su grupo (ort-grupo1), liste sus mensajes y recupere los mismos. ¿Qué comandos utilizó? ***
+***2. Establezca un diálogo POP3, ingresando con el usuario asignado a su grupo (ort-grupo1), liste sus mensajes y recupere los mismos. ¿Qué comandos utilizó?***
 
 ```bash
 user ort-grupo2
@@ -210,11 +212,13 @@ list
 telnet 192.168.56.2 80
 ```
 
-*** Recupere la página de prueba usada para el laboratorio, utilizando como URL la dirección IP del servidor. Indique el comando utilizado (cuando ejecute el comando, presione dos veces la tecla “enter”). Indique también la salida obtenida ***
+***2. Recupere la página de prueba usada para el laboratorio, utilizando como URL la dirección IP del servidor. Indique el comando utilizado (cuando ejecute el comando, presione dos veces la tecla “enter”). Indique también la salida obtenida.***
 
-Como tuve problemas para poder verlo con el ejemplo, muestro la salida de google.com.
+Como tuve problemas para poder verlo con el ejemplo, muestro la salida de una página simple levantada en mi equipo, utilizo el puerto 8082 en mi ejemplo, en la realidad el pueto HTTP es el 80.
 
 ```bash
+# Los comandos utilizados son telnet localhost 8082 y GET / HTTP/1.0
+
 federico@federico-PC:~/Documentos/Gitlab$ telnet localhost 8082
 Trying 127.0.0.1...
 Connected to localhost.
@@ -256,6 +260,8 @@ Content-Type: text/html
 Con el comando HEAD, se realiza de la siguiente forma:
   
 ```bash
+# El comando sería telnet localhost 8082 para conectarnos
+# HEAD / HTTP/1.0 para obtener el head
 federico@federico-PC:~/Documentos/Gitlab$ telnet localhost 8082
 Trying 127.0.0.1...
 Connected to localhost.
@@ -304,7 +310,7 @@ Contraseña:
 ftp>
 ```
 
-*** 3.Posiciónese en el directorio /home/publico y liste el contenido del mismo. ¿Qué archivos se observa?***
+***3. Posiciónese en el directorio /home/publico y liste el contenido del mismo. ¿Qué archivos se observa?***
 
 ```bash
 ftp> pwd
@@ -334,7 +340,7 @@ ftp> get putty.exe
 ftp: 484455 bytes recibidos en 0.02segundos 23069.29a KB/s.
 ```
 
-***5. ¿Qué secuenc4.ia de comandos utilizaría ú deseara copiar a su equipo todo el contenido del directorio actual indicando que no se desea recibir confirmación para cada archivo a transferir?***
+***5. ¿Qué secuencia de comandos utilizaría si deseara copiar a su equipo todo el contenido del directorio actual indicando que no se desea recibir confirmación para cada archivo a transferir?***
 
 ```bash
 ftp> prompt
@@ -359,6 +365,8 @@ ftp>
 ### 3.6. SSH: Security Shell
 
 ***1. Usando el cliente SSH obtenido en el ejercicio anterior, establezca una conexión con el servidor al puerto estándar del servidor SSH. Indique cuál fue la configuración empleada.***
+
+En putty debo poner en el host el IP del servidor al que quiero acceder, también puedo poner el nombre de usuario, además configurar el puerto en caso de que no sea el estándar. Putty nos permite además guardar las configuraciones y configurar claves SSH para poder acceder sin colocar contraseña, haciéndo que el mismo usuario del equipo se autentique en el momento de la conexión.
 
 ```bash
 C:\Users\fnico>ssh ort-grupo1@192.168.56.2
@@ -404,6 +412,11 @@ Por otro lado, telnet nos da la flexibilidad de poder establecer comunicación m
 
 ## 4 DNS
 
+***1. Realice una consulta DNS por un registro A usando el comando nslookup. Elija un sitio que no haya sido utilizado recientemente. Indique el sitio, el comando utilizado y la respuesta.***
+
+* Sitio: mercadolibre.com.br
+* Comando: nslookup mercadolibre.com.br
+
 ```bash
 > nslookup mercadolibre.com.br
 Servidor:  mercadolibre.com.br
@@ -419,10 +432,21 @@ DNS request timed out.
 *** Se agotó el tiempo de espera de la solicitud a mercadolibre.com.br
 ```
 
+***2. Detalle el intercambio observado en Wireshark por el servidor para resolver la consulta, poniendo énfasis en quién origina la consulta, quién responde y los posibles pasos intermedios. Puede ser necesario aplicar filtros en Wireshark para lograr reducir la cantidad de paquetes visualizados (protocolo DNS por ejemplo). Tener en cuenta que existe una gran cantidad de tráfico que se cursa habitualmente por la conexión utilizada por el PC para acceder a Internet.***
+
 ![Imagen DNS1](./assets/DNS1.PNG)
 ![Imagen DNS2](./assets/DNS2.PNG)
+
+***3. Reinicie la captura de Wireshark (puede guardar la anterior si así lo desea). Realice la misma consulta DNS y analice nuevamente el intercambio en Wireshark. ¿El servidor contesta de caché? ¿Cómo distingue si la respuesta es de caché o no? Detalle las diferencias con el caso anterior.***
+
+Como podemos ver en estas siguientes imágenes, el servidor efectivamente está respondiendo de caché, ya que el mismo no "sale" a buscar la dirección IP buscada, él anteriormente había realizado la búsqueda y "recuerda" la respuesta.
+
 ![Imagen DNS3](./assets/DNS3.PNG)
 ![Imagen DNS4](./assets/DNS4.PNG)
+
+***4. Obtenga la dirección IP asociada al nombre www.lab.ort.edu.uy. Detalle el comando y la salida obtenida.***
+
+El comando es nslookup www.lab.ort.edu.uy 192.168.56.2, y la salida se muestra a continuación.
 
 ```bash
 C:\Users\fnico>nslookup www.lab.ort.edu.uy 192.168.56.2
@@ -432,6 +456,8 @@ Address:  192.168.56.2
 Nombre:  www.lab.ort.edu.uy
 Address:  192.168.56.2
 ```
+***5. Obtenga todos los dominios asociados a la dirección IP 192.168.56.2. Indique el comando y la respuesta obtenida.***
+
 ```bash
 C:\Users\fnico>nslookup 192.168.56.2 192.168.56.2
 Servidor:  www.lab.ort.edu.uy
@@ -440,6 +466,11 @@ Address:  192.168.56.2
 Nombre:  dns.lab.ort.edu.uy
 Address:  192.168.56.2
 ```
+
+***6. ¿Cuál es el registro por el que se debe preguntar para conocer el servidor al cual podemos entregar correos para el dominio lab.ort.edu.uy? Realice la consulta y detalle los comandos utilizados.***
+
+Se debe preguntar por el registro MX, nos muestra el servidor y datos de la configuración del mismo.
+
 ```bash
 C:\Users\fnico>nslookup -type=mx www.lab.ort.edu.uy 192.168.56.2
 Servidor:  mail.lab.ort.edu.uy
@@ -454,6 +485,11 @@ lab.ort.edu.uy
         expire  = 3600 (1 hour)
         default TTL = 3600 (1 hour)
 ```
+
+***7. ¿Cuál es el comando para encontrar los servidores autoritativos del dominio com.uy? Indique el comando y detalle los resultados obtenidos.***
+
+Se debe preguntar por el registro SOA.
+
 ```bash
 C:\Users\fnico>nslookup -type=soa com.uy 192.168.56.2
 Servidor:  www.lab.ort.edu.uy
@@ -473,6 +509,11 @@ com.uy  nameserver = ns1.anteldata.com.uy
 com.uy  nameserver = ns2.anteldata.com.uy
 com.uy  nameserver = seciu.edu.uy
 ```
+
+***8. Realice una consulta no recursiva, usando el registro A, correspondiente a un dominio por el cual no haya consultado anteriormente. Indique el comando utilizado y la salida obtenida. ¿Puede obtener la respuesta? ¿Por qué?***
+
+Cuando hacemos una consulta no recursiva, no conseguiremos la respuesta entera, sino una respuesta parcial correspondiente al root server a los que le debemos preguntar por el top-level domain, en nuestro caso que buscamos por movistar.com, debemos preguntarle por .com.
+
 ```bash
 C:\Users\fnico>nslookup
 Servidor predeterminado:  UnKnown
@@ -519,7 +560,13 @@ Served by:
 - i.gtld-servers.net
 
           com
+```
 
+***9. Vuelva a realizar la consulta pero en modo recursivo. Indique el comando utilizado y la salida obtenida. ¿Puede obtener la respuesta ahora?¿Por qué?***
+
+Ahora sí vemos la respuesta, ya que el servidor de dns realiza toda la consulta y nos devuelve el resultado final.
+
+```bash
 > set recurse
 > movistar.com
 Servidor:  [192.168.56.2]
@@ -528,11 +575,12 @@ Address:  192.168.56.2
 Respuesta no autoritativa:
 Nombre:  movistar.com
 Address:  192.0.66.32
-
->
 ```
 
-Round robin DNS
+***10. Haga una consulta correspondiente a www.yahoo.com y repita inmediatamente la misma consulta. Detalle las consultas y las salidas obtenidas.Compare las respuestas y explique las diferencias.***
+
+Podemos ver que se realiza round robin de dns. Esto se realiza por dos motivos principales, uno de ellos repartir la carga y el otro mantener disponible el servicio en caso de falla de alguno de los servidores. En cualquiera de los casos (IPV6 o IPV4) nos alteró el orden en las direcciones que marca las flechas, para que clientes distintos pregunten a servidores distintos.
+
 ```bash
 > www.yahoo.com
 Servidor:  [192.168.56.2]
@@ -566,6 +614,9 @@ Addresses:  2001:4998:44:3507::8001 # <-----
           74.6.231.20
 Aliases:  www.yahoo.com
 ```
+
+A su vez, podemos observar la diferencia en tiempo entre una consulta y la otra con el siguiente comando.
+
 ```bash
 C:\Users\fnico>powershell "Measure-Command { nslookup pedidosya.com 2> $null }" | FINDSTR "^Milliseconds"
 Milliseconds      : 159
