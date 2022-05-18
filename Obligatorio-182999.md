@@ -214,7 +214,7 @@ telnet 192.168.56.2 80
 
 ***2. Recupere la página de prueba usada para el laboratorio, utilizando como URL la dirección IP del servidor. Indique el comando utilizado (cuando ejecute el comando, presione dos veces la tecla “enter”). Indique también la salida obtenida.***
 
-Como tuve problemas para poder verlo con el ejemplo, muestro la salida de una página simple levantada en mi equipo, utilizo el puerto 8082 en mi ejemplo, en la realidad el pueto HTTP es el 80.
+Como tuve problemas para poder verlo con el ejemplo, muestro la salida de una página simple levantada en mi equipo, utilizo el puerto 8082 en mi ejemplo, en la realidad el puerto HTTP es el 80.
 
 ```bash
 # Los comandos utilizados son telnet localhost 8082 y GET / HTTP/1.0
@@ -253,7 +253,7 @@ Content-Type: text/html
 
 ***3. Indique el lenguaje en el cual está escrita la página***
 
-> La página esta escrita en HTML.
+> La página está escrita en HTML.
 
 ***4. ¿Con qué comando traería únicamente el encabezado de la página? Indique la salida obtenida y compárela con la obtenida en el punto anterior***
 
@@ -366,7 +366,7 @@ ftp>
 
 ***1. Usando el cliente SSH obtenido en el ejercicio anterior, establezca una conexión con el servidor al puerto estándar del servidor SSH. Indique cuál fue la configuración empleada.***
 
-En putty debo poner en el host el IP del servidor al que quiero acceder, también puedo poner el nombre de usuario, además configurar el puerto en caso de que no sea el estándar. Putty nos permite además guardar las configuraciones y configurar claves SSH para poder acceder sin colocar contraseña, haciéndo que el mismo usuario del equipo se autentique en el momento de la conexión.
+En putty debo poner en el host el IP del servidor al que quiero acceder, también puedo poner el nombre de usuario, además configurar el puerto en caso de que no sea el estándar. Putty nos permite además guardar las configuraciones y configurar claves SSH para poder acceder sin colocar contraseña, haciendo que el mismo usuario del equipo se autentique en el momento de la conexión.
 
 ```bash
 C:\Users\fnico>ssh ort-grupo1@192.168.56.2
@@ -406,7 +406,7 @@ ort-grupo1@servidor_redes:~$
 
 ***2. ¿Qué diferencias existen entre usar SSH y Telnet?***
 
-La principal diferencia es que SSH utliza un protocolo de comunicación seguro, establece un canal de comunicación encriptado para mantener la confidencialidad, la autenticación y la integridad de la información. Esto no es posible con Telnet, que utiliza un protocolo de comunicación no seguro.
+La principal diferencia es que SSH utiliza un protocolo de comunicación seguro, establece un canal de comunicación encriptado para mantener la confidencialidad, la autenticación y la integridad de la información. Esto no es posible con Telnet, que utiliza un protocolo de comunicación no seguro.
 
 Por este motivo es que no se habilita más telnet en los servidores. 
 Por otro lado, telnet nos da la flexibilidad de poder establecer comunicación mediante otros puertos que no sólo se utilizan para el control total del equipo, lo que se vió en los ejercicios anteriores.
@@ -433,7 +433,7 @@ DNS request timed out.
 *** Se agotó el tiempo de espera de la solicitud a mercadolibre.com.br
 ```
 
-***2. Detalle el inImagen DNS1](./assets/DNS1.PNG)áfico que se cursa habitualmente por la conexión utilizada por el PC para acceder a Internet.***
+***2. Detalle el el intercambio observado en Wireshark por el servidor para resolver la consulta, poniendo énfasis en quién origina la consulta, quién responde y los posibles pasos intermedios. Puede ser necesario aplicar filtros en Wireshark para lograr reducir la cantidad de paquetes visualizados (protocolo DNS por ejemplo). Tener en cuenta que existe una gran cantidad de tráfico que se cursa habitualmente por la conexión utilizada por el PC para acceder a Internet.***
 
 ![Imagen DNS1](./assets/DNS1.PNG)
 ![Imagen DNS2](./assets/DNS2.PNG)
@@ -638,7 +638,7 @@ Milliseconds      : 76
 
 Los largos de segmento de dichas transmisiones es de 0. En la imágen se muestran las banderas, los números de secuencia y las banderas asociadas.
 
-![Imagen TCP](./assets/tcp2.png)
+![Imagen TCP](./assets/tcp0.png)
 
 En wireshark las banderas se ven de esta forma:
 
@@ -646,11 +646,13 @@ En wireshark las banderas se ven de esta forma:
 
 ***3. Identifique la finalización de la conexión, describa la secuencia de segmentos intercambiados indicando: los números de SEQ y ACK, como así también banderas activas y largo de segmentos.***
 
-Se marcan en la imágen anterior.
+![Imagen TCP](./assets/tcp3.png)
+
+Se marcan en la imágen anterior en las últimas líneas, se ven con las banderas FIN. Primero el servidor informa la finalización con la bandera FIN, el cliente le da el ACK y envía también la bandera FIN, finalmente el servidor da el ACK. Éste es un final simétrico.
 
 ***4. Identifique en el request HTTP, aquel encabezado de solicitud y su valor, que le brinda información al servidor acerca del navegador web cliente. Justifique su uso.***
 
-Los datos obtenidos a través de la cabecera, permite al servidor brindar la información de la mejor manera para que el cliente pueda recibirla sin problemas y de la forma más rápida posible, por ejemplo, If-Modified-Since permite enviar contenido solo si éste ha sido modificado desde el momento especificado. O el User-Agent, para que el servidor brinde cierta información sólo a aquellos navegadores que puedan manejarlo.
+Los datos obtenidos a través de la cabecera, permite al servidor brindar la información de la mejor manera para que el cliente pueda recibirla sin problemas y de la forma más rápida posible, por ejemplo, If-Modified-Since permite enviar contenido sólo si éste ha sido modificado desde el momento especificado. O el User-Agent, para que el servidor brinde cierta información sólo a aquellos navegadores que puedan manejarlo.
 
 ![Imagen TCP](./assets/tcp4.png)
 
@@ -666,7 +668,7 @@ Acá se ve un ejemplo en el que el navegador ya poseía la información:
 
 ***6. Analizando la captura realizada. ¿En qué momento se incrementan los números de secuencia y en qué valor lo hacen? Identifique todos los casos posibles.***
 
-Existen dos casos en que los números de secuencia se incrementan:
+Existen dos casos en que los números de secuencia se incrementa:
 
 - Los números de secuencia se incrementan en 1, cuando reciben el ACK del otro host que le informa por ejemplo cuando se manda ACK=1250777702 se informa que hasta el 1250777701 recibió bien, por lo que espera el 1250777702.
 
@@ -674,11 +676,11 @@ Existen dos casos en que los números de secuencia se incrementan:
 
 ***7. Analizando los números de secuencia. ¿Puede deducir cuántos bytes fueron enviados en cada sentido? Justifique su respuesta.***
 
-Sí, es más, wireshark lo puede hacer por nosotros, dentro del análisis de cada transmisión existe un campo llama SEQ/ACK analysis, en el que se muestran los bits transmitidos entre otros datos, podríamos sumarlos todos y obtener los datos de la transmisión.
+Sí, es más, wireshark lo puede hacer por nosotros, dentro del análisis de cada transmisión existe un campo llamado SEQ/ACK analysis, en el que se muestran los bits transmitidos entre otros datos, podríamos sumarlos todos y obtener los datos de la transmisión.
 
 ![Imagen TCP](./assets/tcp8.png)
 
-Los números de secuencia aumentan en 1 por byte enviado, por lo que haciendo la resta entre numeros de secuencia tenemos el total:
+Los números de secuencia aumentan en 1 por byte enviado, por lo que haciendo la resta entre números de secuencia tenemos el total:
 
 - host 1 (Enviados) = 3418146859 - 3418145883 = 976 bytes
 - host 2 (Recibidos) = 1018752429 - 1018748408 = 4021 bytes
@@ -689,7 +691,7 @@ Sí, se ve en las transmisiones HTTP, lo que realiza dicha bandera es el aviso a
 
 ***9. Si una parte de la comunicación desea enviar solamente un reconocimiento y no datos. ¿Cuál número de secuencia debe enviar?***
 
-Debe enviar el ACK de la comunicación que recibió, por ejemplo, si recibió el paquete con el número 1018752429, y no desea enviar datos, sólo reconocer el paquete anterior, manda un ACK con el número siguiente, 1018752430.
+Debe enviar el ACK de la comunicación que recibió, por ejemplo, si recibió el paquete con el número 1018752429, y no desea enviar datos, sólo reconoce el paquete anterior, manda un ACK con el número siguiente, 1018752430.
 
 ***10. Capture nuevamente e intente acceder ahora a la dirección del servidor pero en el puerto 8080. (http://192.168.56.2:8080). ¿Logró conectarse? ¿Por qué sucede esto? ¿Qué bandera se utiliza para señalizar esto?***
 
@@ -703,9 +705,9 @@ Esto sucede porque el puerto se encuentra cerrado:
 
 Para señalizar este comportamiento se utiliza la bandera RST.
 
-***11. Descargue la página del laboratorio (http://192.168.56.2). Indique cuál es la fecha de  ́ultima modificación de la misma y cuál es el código de la respuesta HTTP.***
+***11. Descargue la página del laboratorio (http://192.168.56.2). Indique cuál es la fecha de última modificación de la misma y cuál es el código de la respuesta HTTP.***
 
-El código de la respuesta HTTP es 200, la última modificación fue el 8 de setirmbre de 2011.
+El código de la respuesta HTTP es 200, la última modificación fue el 8 de septiembre de 2011.
 
 ![Imagen TCP](./assets/tcp11.png)
 
@@ -719,4 +721,82 @@ El navegador pregunta con el campo If-Modified-Since: ... para comparar con lo q
 
 ### 5.2 Análisis de las conexiones
 
+***1. Ejecute el comando netstat –na desde una consola de Windows. Detalle brevemente la salida observada.***
+
+Lo que se puede observar son las conexiones del equipo. Con el comando netstat -h nos muestra la ayuda del mismo, vemos que la n es para que nos muestre las direcciones en formato numérico y la a es para que muestre todas las conexiones.
+
+![Imagen TCP](./assets/tcp13.jpeg)
+
+***2. ¿Qué significan los estados “ESTABLISHED” y “LISTENING” que observa?***
+
+Una conexión established significa que la conexión fue establecida, o sea, que se encuentra conectado, mientras que listening significa que está a la escucha en el puerto mostrado.
+
+***3. Establezca una conexión Telnet al servidor en otra consola y ejecute nuevamente netstat –na. Describa qué diferencia hay con la salida anterior.***
+
+Como vemos marcado en la siguiente imágen, tras establecer una conexión telnet con el equipo virtual, podremos ver la conexión a la salida en la consola. Se muestra que nuestro equipo, con dirección 192.168.79.211 y puerto 48026, se conectó con el equipo remoto en la dirección 192.168.56.2 en el puerto de telnet, el 23, y la conexión se encuentra establecida.
+
+![Imagen TCP](./assets/tcp14.png)
+
 ### 5.3 Throughpput de una conexión TCP
+
+***2. Descargue el archivo archivogrande.zip del servidor mediante HTTP, usando: http://192.168.56.2/archivogrande.zip***
+
+***3. Inicie una nueva captura y comience a descargar el archivo. En la captura identifique el comienzo y el fin de conexión y el número de secuencia inicial y final. Indique:***
+
+- ***La cantidad de bytes enviados.***
+
+  Número de secuencia inicial:  1024118411
+  Número de secuencia final:    1069304140
+  Bytes:                        45.185.729
+
+- ***El tiempo transcurrido.***
+
+  Tiempo de transmisión: 38.518476539 s
+
+- ***Con los datos anteriores, calcule el throughput en Mbps y compárelo con el configurado como límite, utilizando la aplicación tc.***
+
+  Throughput: 45.185.729 byte / 38.518476539 s
+  Throughput: 1.173.092 byte/s -> 1,1 Mbps
+
+  Se puede ver que el resultado es menor al límite establecido.
+
+***4. Seleccione el flujo TCP relativo a la descarga. Usando la opción Statistics/TCP Stream Graph/time-sequence graph (Stevens) observe la evolución del número de secuencia en función del tiempo y verifique el cálculo anterior.***
+
+Se verifica el cálculo realizado anteriormente.
+
+![Imagen TCP](./assets/tcp15.png)
+
+***5. Identifique si TCP finaliza la conexión en forma simétrica o asimétrica. Justifique brevemente su respuesta.***
+
+En este caso se terminó la conexión de forma asimétrica, el servidor informa el corte de la conexión con la flag FIN y el cliente le da el ACK de dicha transmisión, sin mandar una finalización.
+
+![Imagen TCP](./assets/tcp16.png)
+
+En otro ejemplo se muestra la finalización simétrica, en la que además de lo ocurrido anteriormente, el cliente además le envía para finalizar la conexión.
+
+![Imagen TCP](./assets/tcp0.png)
+
+***6. Aplicando ahora ./enlace2.sh: Repita ahora las pruebas de los puntos 2 y 3. ¿Qué cambios observa? ¿Por qué ocurren los mismos?***
+
+En este caso se puede ver que se pierden paquetes durante la transmisión:
+
+![Imagen TCP](./assets/tcp19.png)
+
+- ***La cantidad de bytes enviados.***
+
+  Número de secuencia inicial:  1619180962
+  Número de secuencia final:   1664367353
+  Bytes:                        45.186.391
+
+- ***El tiempo transcurrido.***
+
+  Tiempo de transmisión: 71,34 s
+
+- ***Con los datos anteriores, calcule el throughput en Mbps y compárelo con el configurado como límite, utilizando la aplicación tc.***
+
+  Throughput: 45.186.391 byte / 71,34 s
+  Throughput: 633.395 byte/s -> 0,6 Mbps
+
+  Se puede ver que el resultado es menor al anterior, debido a los paquetes perdidos, aproximadamente la mitad.
+
+  ![Imagen TCP](./assets/tcp18.png)
