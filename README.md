@@ -407,6 +407,7 @@ ort-grupo1@servidor_redes:~$
 ***2. ¿Qué diferencias existen entre usar SSH y Telnet?***
 
 La principal diferencia es que SSH utliza un protocolo de comunicación seguro, establece un canal de comunicación encriptado para mantener la confidencialidad, la autenticación y la integridad de la información. Esto no es posible con Telnet, que utiliza un protocolo de comunicación no seguro.
+
 Por este motivo es que no se habilita más telnet en los servidores. 
 Por otro lado, telnet nos da la flexibilidad de poder establecer comunicación mediante otros puertos que no sólo se utilizan para el control total del equipo, lo que se vió en los ejercicios anteriores.
 
@@ -432,7 +433,7 @@ DNS request timed out.
 *** Se agotó el tiempo de espera de la solicitud a mercadolibre.com.br
 ```
 
-***2. Detalle el intercambio observado en Wireshark por el servidor para resolver la consulta, poniendo énfasis en quién origina la consulta, quién responde y los posibles pasos intermedios. Puede ser necesario aplicar filtros en Wireshark para lograr reducir la cantidad de paquetes visualizados (protocolo DNS por ejemplo). Tener en cuenta que existe una gran cantidad de tráfico que se cursa habitualmente por la conexión utilizada por el PC para acceder a Internet.***
+***2. Detalle el inImagen DNS1](./assets/DNS1.PNG)áfico que se cursa habitualmente por la conexión utilizada por el PC para acceder a Internet.***
 
 ![Imagen DNS1](./assets/DNS1.PNG)
 ![Imagen DNS2](./assets/DNS2.PNG)
@@ -624,3 +625,98 @@ Milliseconds      : 159
 C:\Users\fnico>powershell "Measure-Command { nslookup pedidosya.com 2> $null }" | FINDSTR "^Milliseconds"
 Milliseconds      : 76
 ```
+
+## 5 TCP/HTTP
+
+### 5.1 Análisis de mensajes y secuencia TCP
+
+***1. Acceda mediante el navegador a la página del servidor (http://192.168.56.2). Luego de obtenida la página, detenga la captura.***
+
+![Imagen TCP](./assets/tcp0.png)
+
+***2. Identifique el establecimiento de conexión. Describa de la misma, los números de secuencia (SEQ) inicial de ambas partes, los números de reconocimiento (ACK), el largo del segmento, como así también qué banderas van activas durante la secuencia de segmentos intercambiados.***
+
+Los largos de segmento de dichas transmisiones es de 0. En la imágen se muestran las banderas, los números de secuencia y las banderas asociadas.
+
+![Imagen TCP](./assets/tcp2.png)
+
+En wireshark las banderas se ven de esta forma:
+
+![Imagen TCP](./assets/tcp5.png)
+
+***3. Identifique la finalización de la conexión, describa la secuencia de segmentos intercambiados indicando: los números de SEQ y ACK, como así también banderas activas y largo de segmentos.***
+
+Se marcan en la imágen anterior.
+
+***4. Identifique en el request HTTP, aquel encabezado de solicitud y su valor, que le brinda información al servidor acerca del navegador web cliente. Justifique su uso.***
+
+Los datos obtenidos a través de la cabecera, permite al servidor brindar la información de la mejor manera para que el cliente pueda recibirla sin problemas y de la forma más rápida posible, por ejemplo, If-Modified-Since permite enviar contenido solo si éste ha sido modificado desde el momento especificado. O el User-Agent, para que el servidor brinde cierta información sólo a aquellos navegadores que puedan manejarlo.
+
+![Imagen TCP](./assets/tcp4.png)
+
+***5. Identifique en el response HTTP, aquel encabezado de respuesta y su valor, que le brinda información al cliente acerca del servidor web.***
+
+Acá se ve un ejemplo en el que el navegador recibe la información por primera vez:
+
+![Imagen TCP](./assets/tcp7.png)
+
+Acá se ve un ejemplo en el que el navegador ya poseía la información:
+
+![Imagen TCP](./assets/tcp6.png)
+
+***6. Analizando la captura realizada. ¿En qué momento se incrementan los números de secuencia y en qué valor lo hacen? Identifique todos los casos posibles.***
+
+Existen dos casos en que los números de secuencia se incrementan:
+
+- Los números de secuencia se incrementan en 1, cuando reciben el ACK del otro host que le informa por ejemplo cuando se manda ACK=1250777702 se informa que hasta el 1250777701 recibió bien, por lo que espera el 1250777702.
+
+- El caso de incremento mayor a 1 es cuando se envía data en el segmento, en este caso varía según el tamaño de datos enviados.
+
+***7. Analizando los números de secuencia. ¿Puede deducir cuántos bytes fueron enviados en cada sentido? Justifique su respuesta.***
+
+Sí, es más, wireshark lo puede hacer por nosotros, dentro del análisis de cada transmisión existe un campo llama SEQ/ACK analysis, en el que se muestran los bits transmitidos entre otros datos, podríamos sumarlos todos y obtener los datos de la transmisión.
+
+![Imagen TCP](./assets/tcp8.png)
+
+Los números de secuencia aumentan en 1 por byte enviado, por lo que haciendo la resta entre numeros de secuencia tenemos el total:
+
+- host 1 (Enviados) = 3418146859 - 3418145883 = 976 bytes
+- host 2 (Recibidos) = 1018752429 - 1018748408 = 4021 bytes
+
+***8. ¿Puede observar en algún momento la bandera PSH en TCP? ¿Para qué se utiliza?***
+
+Sí, se ve en las transmisiones HTTP, lo que realiza dicha bandera es el aviso a la capa de transporte de que dicha información debe ser pasada inmediatamente a las capas superiores para la capa de aplicación, no debe esperar para hacerlo.
+
+***9. Si una parte de la comunicación desea enviar solamente un reconocimiento y no datos. ¿Cuál número de secuencia debe enviar?***
+
+Debe enviar el ACK de la comunicación que recibió, por ejemplo, si recibió el paquete con el número 1018752429, y no desea enviar datos, sólo reconocer el paquete anterior, manda un ACK con el número siguiente, 1018752430.
+
+***10. Capture nuevamente e intente acceder ahora a la dirección del servidor pero en el puerto 8080. (http://192.168.56.2:8080). ¿Logró conectarse? ¿Por qué sucede esto? ¿Qué bandera se utiliza para señalizar esto?***
+
+No nos pudimos conectar.
+
+![Imagen TCP](./assets/tcp9.png)
+
+Esto sucede porque el puerto se encuentra cerrado:
+
+![Imagen TCP](./assets/tcp10.png)
+
+Para señalizar este comportamiento se utiliza la bandera RST.
+
+***11. Descargue la página del laboratorio (http://192.168.56.2). Indique cuál es la fecha de  ́ultima modificación de la misma y cuál es el código de la respuesta HTTP.***
+
+El código de la respuesta HTTP es 200, la última modificación fue el 8 de setirmbre de 2011.
+
+![Imagen TCP](./assets/tcp11.png)
+
+***12. Vuelva a descargar la página e indique ahora cuál es el código de respuesta HTTP. Además, justifique el porqué de esta situación e indique cómo es el procedimiento de solicitud/respuesta HTTP con los datos de la captura.***
+
+El nuevo código es 304, esto se debe a que la misma se encuentra almacenada en caché. Esto le dice al cliente que al no ser actualizada la página desde 2011, puede utilizar la que ya posee en caché.
+
+El navegador pregunta con el campo If-Modified-Since: ... para comparar con lo que posee el navegador, por lo que el servidor responde Not Modified, en caso de que la página sea la misma.
+
+![Imagen TCP](./assets/tcp12.png)
+
+### 5.2 Análisis de las conexiones
+
+### 5.3 Throughpput de una conexión TCP
