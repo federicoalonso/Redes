@@ -1,6 +1,6 @@
 # Obligatorio de Redes
 
-Primera entrega del obligatorio de redes, alumno Federico Alonso, 182999.
+Obligatorio realizado para la materia de Redes en la universidad ORT, alumno Federico Alonso, 182999.
 
 ## 3 Aplicaciones
 
